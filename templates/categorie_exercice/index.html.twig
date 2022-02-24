@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categorieexercice index{% endblock %}
+
+{% block body %}
+ 
+    <!-- ===========================
+    =====>> Page Hero <<===== -->
+    <section id="page-hero" class="about-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title text-center">
+                        <h1> <span>Categorie Exercies FitHub</span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =====>> End Page Hero <<===== 
+    =========================== -->
+
+    <!-- ===========================
+    =====>> Team <<===== -->
+      
+
+    <section id="team-area" class="pt-100 pb-150">
+        <div class="container">
+            <div class="team-content">
+                <div class="row">
+                    <!-- team item -->
+                    {% for categorieexercice in categorie_exercices %}
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="team-box effect-item mt-50">
+                            <div class="team-item content-overlay">
+                                <img src="{{ asset('assets/img/team/1.jpg') }}" alt="">
+                                <!------ <div class="content-details fadeIn-top">
+                                    <ul>
+                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-google-plus-g"></i></a></li>
+                                        <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+                                    </ul>
+                                    <p>Over 50 group training sessions per week There is no one type or way in our diverse community.</p>
+                                </div> ----->
+                            </div>
+                            <div class="team-title text-center">
+        
+                                <h3><a href="{{ path('categorie_exercice_show', {'id': categorieexercice.id}) }}">{{ categorieexercice.nom }}</a></h3>
+                                <p> {{ categorieexercice.id }} </p>
+                            </div>
+                        </div>
+                    </div>
+                      {% else %}
+            
+                <h1>no records found</h1>
+           
+        {% endfor %}
+                    <!-- team item -->
+                  
+      
+                </div>
+                
+            </div>
+        </div>  <div class="row text-center pt-100">    
+                    <div class="col-lg-12 ">
+                        <nav>
+                         <a href="{{ path('categorie_exercice_new') }}">Ajouter</a> <br>
+                        </nav>
+                    </div>
+                </div>
+        
+    </section>
+    <!-- =====>> End Team <<===== 
+    =========================== -->
+
+    <!-- ===========================
+    =====>> Cta <<===== -->
+   <section id="cta-area" class="cta-bg1 pt-80 pb-80">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="cta-left">
+                        <h2>Offre du Decembre </h2>
+                        <p>2 mois de reduction <span>$39.95/</span> pour les couples</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="cta-btn ">
+                        <a href="contact.html" class="btn btn-1">Contactez nous</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =====>> End Cta <<===== 
+    =========================== -->
+
+    <!-- ===========================
+    =====>> Footer <<===== -->
+    <footer id="footer-area" class="pt-100 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 pt-50">
+                    <div class="footer-item">
+                        <a href="#" class="footer-logo-img"><img style="width: 300px;" src="assets/img/logo FitHUb.png" alt=""></a>
+                        <p>Notre commité est de fournir un service honnête, amical et ponctuel. </p>
+
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-4 pt-50">
+                    <div class="footer-item">
+                        <h6>Liens</h6>
+                        <ul>
+                            <li><a href="index-1.html"><i class="fas fa-angle-right"></i> Acceuil</a></li>
+                          
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Nos Coachs</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Boutique</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Forum</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 pt-50">
+                    <div class="footer-item">
+                        <h6>Nos Services</h6>
+                        <ul>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Yoga </a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Cardio</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> CrossFit</a></li>
+                            <li><a href="#"><i class="fas fa-angle-right"></i> Musculation</a></li>
+                          
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4 pt-50">
+                    <div class="footer-item">
+                        <h6>Contactez nous </h6>
+                        <ul class="media">
+                            <li><i class="fas fa-map-marker-alt"></i></li>
+                            <li><a target="_blank" href="">Tunis,TUNISIE</a></li>
+                            
+                        </ul>
+                        <ul class="media">
+                            <li><i class="fas fa-phone-volume"></i></li>
+                            <li><a href="#">+216 71 234 567</a></li>
+                        </ul>
+                        <ul class="media">
+                            <li><i class="fas fa-envelope"></i></li>
+                            <li><a href="#">Fithub1@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    
+                    <div class="copy-right">  © Tous droits résevés 2020.
+</a> </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <a href="{{ path('categorie_exercice_new') }}">Create new</a>
+{% endblock body %}
