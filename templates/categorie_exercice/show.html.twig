@@ -21,39 +21,42 @@
             <div class="team-content">
                 <div class="row">
                     <!-- team item -->
-                    {% for ex in categorie_exercice.Exercices %}
-                    <div class="col-lg-4 col-md-6 col-sm-6">
-                        <div class="team-box effect-item mt-50">
-                            <div class="team-item content-overlay">
-                            <img src="{{ asset('assets/img/team/1.jpg') }}" alt="">
-                                  
+                    {% for ex in Exercices %}
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="team-box effect-item mt-50">
+                                <div class="team-item content-overlay">
+                                    <img src="{{ asset('assets/frontend/img/team/1.jpg') }}" alt="">
                                     <p></p>
-                                
-                            </div>
-                            
-                            <div class="team-title text-center">
-                                <h3><a href="{{ path('exercice_show', {'id': ex.id}) }}">{{ ex.nom }}</a></h3>
-                                <p> {{ ex.id }} </p>
+                                </div>
+
+                                <div class="team-title text-center">
+                                    <h3><a href="{{ path('exercice_show', {'id': ex.id}) }}">{{ ex.nom }}</a></h3>
+                                    <p> {{ ex.id }} </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                      {% else %}
-            
-                <h1>no records found</h1>
-           
-                 {% endfor %}
-                    <!-- team item -->
-                  
-
+                    {% else %}
+                        <h1>no records found</h1>
+                    {% endfor %}
                 </div>
+                <!-- HTML !-->
+                <br>
+                    <div class="pagination">
+                  {{ knp_pagination_render(Exercices) }}
+                    </div>
+
+
+
+
+
                 <div class="row text-center pt-100">
                     <div class="col-lg-12 ">
                         <nav>
                          <a href="{{ path('categorie_exercice_index') }}">Back TO LIST </a> <br>
-                          <a href="{{ path('exercice_new') }}">Ajouter</a> <br>
-    <a href="{{ path('categorie_exercice_edit', {'id': categorie_exercice.id}) }}">edit</a><br>
 
-    {{ include('categorie_exercice/_delete_form.html.twig') }}
+
+
+
                         </nav>
                     </div>
                 </div>

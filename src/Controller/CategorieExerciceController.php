@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\CategorieExercice;
 use App\Form\CategorieExerciceType;
 use App\Repository\CategorieExerciceRepository;
+use App\Repository\ExerciceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +23,18 @@ class CategorieExerciceController extends AbstractController
      */
     public function index(CategorieExerciceRepository $categorieExerciceRepository): Response
     {
+
+
         return $this->render('categorie_exercice/index.html.twig', [
+            'categorie_exercices' => $categorieExerciceRepository->findAll(),
+        ]);
+    }
+    /**
+     * @Route("/backend", name="categorie_exercice_back", methods={"GET"})
+     */
+    public function backendCat(CategorieExerciceRepository $categorieExerciceRepository): Response
+    {
+        return $this->render('categorie_exercice/backend/categorie/index.html.twig', [
             'categorie_exercices' => $categorieExerciceRepository->findAll(),
         ]);
     }
@@ -38,11 +51,11 @@ class CategorieExerciceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($categorieExercice);
             $entityManager->flush();
-
-            return $this->redirectToRoute('categorie_exercice_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('info', 'Categorie Ajoutée');
+            return $this->redirectToRoute('categorie_exercice_back', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('categorie_exercice/new.html.twig', [
+        return $this->render('categorie_exercice/backend/categorie/new.html.twig', [
             'categorie_exercice' => $categorieExercice,
             'form' => $form->createView(),
         ]);
@@ -51,29 +64,35 @@ class CategorieExerciceController extends AbstractController
     /**
      * @Route("/{id}", name="categorie_exercice_show", methods={"GET"})
      */
-    public function show(CategorieExercice $categorieExercice): Response
+    public function show(CategorieExercice $categorieExercice, ExerciceRepository  $repository, Request $request,PaginatorInterface $paginator): Response
     {
+        $ex = $repository->findAll();
+        $exercices = $paginator->paginate(
+            $ex,
+            $request->query->getInt('page',1),
+            3
+        );
         return $this->render('categorie_exercice/show.html.twig', [
-            'categorie_exercice' => $categorieExercice,
+            'Exercices' => $exercices, 'categorie_exercice' =>$categorieExercice,
         ]);
     }
+
 
     /**
      * @Route("/{id}/edit", name="categorie_exercice_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, CategorieExercice $categorieExercice, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request,$id, CategorieExercice $categorieExercice, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CategorieExerciceType::class, $categorieExercice);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
-            return $this->redirectToRoute('categorie_exercice_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('info', 'Categorie '.$id.' Modifié');
+            return $this->redirectToRoute('categorie_exercice_back', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->render('categorie_exercice/edit.html.twig', [
-            'categorie_exercice' => $categorieExercice,
+        return $this->render('categorie_exercice/backend/categorie/edit.html.twig', [
+            'cat' => $categorieExercice,
             'form' => $form->createView(),
         ]);
     }
@@ -81,13 +100,14 @@ class CategorieExerciceController extends AbstractController
     /**
      * @Route("/{id}", name="categorie_exercice_delete", methods={"POST"})
      */
-    public function delete(Request $request, CategorieExercice $categorieExercice, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request,$id, CategorieExercice $categorieExercice, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$categorieExercice->getId(), $request->request->get('_token'))) {
             $entityManager->remove($categorieExercice);
             $entityManager->flush();
+            $this->addFlash('info', 'Categorie '.$id.' Supprimé');
         }
 
-        return $this->redirectToRoute('categorie_exercice_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('categorie_exercice_back', [], Response::HTTP_SEE_OTHER);
     }
 }

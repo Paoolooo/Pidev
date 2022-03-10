@@ -1,0 +1,64 @@
+{% extends 'baseadmin.html.twig' %}
+ {% block menubar %}
+     <div class="menu-submenu">
+         <div class="menu-item  ">
+             <a href="{{ path('categorie_exercice_back') }}" class="menu-link">
+                 <span class="menu-text">Categorie Exercice</span>
+             </a>
+         </div>
+         <div class="menu-item active">
+             <a href="{{ path('exercice_back') }}" class="menu-link">
+                 <span class="menu-text">Exercice</span>
+             </a>
+         </div>
+
+     </div>
+ {%  endblock menubar %}
+
+{% block MainContent %}
+   Exercices
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+<br>
+
+    <table >
+
+        <tr>
+            <th>ID</th>
+            <th>Categorie</th>
+            <th>Nom</th>
+            <th>Difficulté</th>
+            <th>Description</th>
+            <th>Modifier</th>
+            <th>Supprimer</th>
+
+        </tr>
+        {% for exercice  in exercises %}
+            <tr>
+                <td>{{  exercice.id  }}</td>
+                <td>{{  exercice.getIdCategorie().getNom()  }}</td>
+                <td>{{ exercice.nom }}</td>
+                <td>{{ exercice.difficulte }}</td>
+                <td>{{ exercice.description }}</td>
+                <td><a href="{{ path('exercice_edit', {'id': exercice.id }) }}">Edit</a></td>
+                <td>{{ include('exercice/backend/exercice/_delete_form.html.twig') }}</td>
+
+            </tr>
+        {% else %}
+
+            <h1>no records found</h1>
+        {% endfor %}
+
+
+    </table>
+    <div class="row text-center pt-100">
+        <div class="col-lg-12 ">
+            <nav>
+                <a href="{{ path('exercice_new') }}">Ajouter</a> <br>
+            </nav>
+        </div>
+    </div>
+{% endblock  %}

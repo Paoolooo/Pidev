@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Exercice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Symfony\Component\Routing\Annotation\Route;
 /**
  * @method Exercice|null find($id, $lockMode = null, $lockVersion = null)
  * @method Exercice|null findOneBy(array $criteria, array $orderBy = null)

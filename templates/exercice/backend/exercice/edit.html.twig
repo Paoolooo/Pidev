@@ -1,0 +1,13 @@
+{% extends 'baseadmin.html.twig' %}
+
+
+
+{% block MainContent %}
+    Edit Exercice
+
+    {{ include('exercice/backend/exercice/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('exercice_back') }}">back to list</a>
+
+    {{ include('exercice/backend/exercice/_delete_form.html.twig') }}
+{% endblock %}

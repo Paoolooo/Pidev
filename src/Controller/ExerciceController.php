@@ -6,10 +6,12 @@ use App\Entity\Exercice;
 use App\Form\ExerciceType;
 use App\Repository\ExerciceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 /**
  * @Route("/exercice")
@@ -19,10 +21,25 @@ class ExerciceController extends AbstractController
     /**
      * @Route("/", name="exercice_index", methods={"GET"})
      */
-    public function index(ExerciceRepository $exerciceRepository): Response
+    public function index( ExerciceRepository  $repository,Request $request, PaginatorInterface $paginator): Response
     {
+        $ex = $repository->findAll();
+        $exercices = $paginator->paginate(
+            $ex,
+            $request->query->getInt('page',1),
+            3
+        );
         return $this->render('exercice/index.html.twig', [
-            'exercices' => $exerciceRepository->findAll(),
+            'exercices' => $exercices,
+        ]);
+    }
+    /**
+     * @Route("/backend", name="exercice_back", methods={"GET"})
+     */
+    public function execicesIndex(ExerciceRepository  $exerciceRepository): Response
+    {
+        return $this->render('exercice/backend/exercice/index.html.twig', [
+            'exercises' => $exerciceRepository->findAll(),
         ]);
     }
 
@@ -34,15 +51,15 @@ class ExerciceController extends AbstractController
         $exercice = new Exercice();
         $form = $this->createForm(ExerciceType::class, $exercice);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($exercice);
             $entityManager->flush();
+            $this->addFlash('info', 'Exercice Ajouté');
 
-            return $this->redirectToRoute('exercice_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('exercice_back', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('exercice/new.html.twig', [
+        return $this->render('exercice/backend/exercice/new.html.twig', [
             'exercice' => $exercice,
             'form' => $form->createView(),
         ]);
@@ -58,21 +75,22 @@ class ExerciceController extends AbstractController
         ]);
     }
 
+
     /**
      * @Route("/{id}/edit", name="exercice_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Exercice $exercice, EntityManagerInterface $entityManager): Response
+    public function edit($id,Request $request, Exercice $exercice, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ExerciceType::class, $exercice);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
+            $this->addFlash('info', 'Exercice '.$id.' Modifié');
 
-            return $this->redirectToRoute('exercice_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('exercice_back', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('exercice/edit.html.twig', [
+        return $this->render('exercice/backend/exercice/edit.html.twig', [
             'exercice' => $exercice,
             'form' => $form->createView(),
         ]);
@@ -81,13 +99,15 @@ class ExerciceController extends AbstractController
     /**
      * @Route("/{id}", name="exercice_delete", methods={"POST"})
      */
-    public function delete(Request $request, Exercice $exercice, EntityManagerInterface $entityManager): Response
+    public function delete($id,Request $request, Exercice $exercice, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$exercice->getId(), $request->request->get('_token'))) {
             $entityManager->remove($exercice);
             $entityManager->flush();
+            $this->addFlash('info', 'Exercice '.$id.' Supprimé');
+
         }
 
-        return $this->redirectToRoute('categorie_exercice_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('exercice_back', [], Response::HTTP_SEE_OTHER);
     }
 }

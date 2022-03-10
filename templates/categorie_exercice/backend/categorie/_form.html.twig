@@ -1,0 +1,37 @@
+
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+        $('#categorie_exercice_Save').click(function () {
+
+            let nom =$('#categorie_exercice_nom').val();
+
+
+
+            if ((nom.length<5)||((nom.length>15)))
+            {
+                swal({
+                    title: 'Error!',
+                    text: 'nom:il faut au moin 5 caractere et max 15',
+                    icon: 'error',
+                    button: {
+                        text: "Continue",
+                        value: true,
+                        visible: true,
+                        className: "btn btn-primary"
+                    }
+                });
+                return false;
+
+
+            }
+        });
+    });
+</script>
