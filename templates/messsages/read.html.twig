@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MesssagesController!{% endblock %}
+
+{% block bodyMessagerie %}
+    <section id="page-hero" class="about-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title text-center">
+                        <h1>messagerie <span></span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Messagerie</h1>
+                <h2>{{ message.title }}</h2>
+                <p>Message de {{ message.sender.email }}</p>
+                <p>Le {{ message.createdAt|date }}</p>
+                <div>{{ message.message }}</div>
+                <a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                    Voir mes dossiers
+                </a>
+                <a href="{{path("received")}}" class="btn btn-primary">Retour à la boite de réception</a>
+            </div>
+        </div>
+    </section>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    <div class="offcanvas-header">
+        <h2 class="offcanvas-title" id="offcanvasExampleLabel">Mes Dossier</h2>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="list-group">
+            <a href="{{ path("app_messsages") }}" class="list-group-item-action active">Acceuil</a>
+        </div>
+        <div class="list-group">
+            <a href="{{ path("app_messsages") }}" class="list-group-item-action active">Boite de reception</a>
+        </div>
+        <div class="list-group">
+            <a href="{{ path("app_messsages" ) }}" class="list-group-item-action active">Eléments envoyés</a>
+        </div>
+
+    </div>
+    </div>
+{% endblock %}

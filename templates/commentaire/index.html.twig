@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commentaire index{% endblock %}
+
+{% block Commentairebody %}
+    <section id="page-hero" class="about-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title text-center">
+                        <h1>Commentaire <span>index</span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Commentaire</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for commentaire in commentaires %}
+            <tr>
+                <td>{{ commentaire.id }}</td>
+                <td>{{ commentaire.nom }}</td>
+                <td>{{ commentaire.email }}</td>
+                <td>{{ commentaire.commentaire }}</td>
+                <td>
+                    <a href="{{ path('app_commentaire_show', {'id': commentaire.id}) }}">show</a>
+                    <a href="{{ path('app_commentaire_edit', {'id': commentaire.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_commentaire_new') }}">Create new</a>
+{% endblock %}

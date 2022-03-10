@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Commentaire{% endblock %}
+
+{% block ajouterCommentaire %}
+    <section id="page-hero" class="about-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title text-center">
+                        <h1>Commentaire <span>new</span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    {{ include('commentaire/_form.html.twig') }}
+
+    <a href="{{ path('app_commentaire_index') }}">back to list</a>
+{% endblock %}

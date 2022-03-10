@@ -1,0 +1,123 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Publication{% endblock %}
+
+{% block showPublication %}
+
+    <section id="page-hero" class="about-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title text-center">
+                        <h1> <span> Publication </span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog-arae" class="pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+
+                    <div class="blog-single-contetn">
+                        <div class="blog-single-img">
+                            <img src="../../assets/img/blog/7.jpg" alt="">
+                        </div>
+                        <div class="blog-single-text">
+                            <ul>
+                                <li> <a href="#" class="btn btn-link js-like">
+                                        {% if app.user and publication.isLikedByUser(app.user) %}
+                                            <i class="fas fa-thumbs-up"></i>
+                                        {% else %}
+                                            <i class="far fa-thumbs-up"></i>
+                                        {% endif %}
+                                        <span class="js-likes">{{ publication.likes|length }}</span>
+                                        <span class="js-label">j'aime</span>
+                                    </a></li>
+                                <li><a href="#"><i class="fas fa-comments"></i> {{ publication.commentaires|length }} commentaires </a></li>
+                            </ul>
+                            <h3>{{ publication.title }}</h3>
+                            <p>{{ publication.description }}</p>
+                        </div>
+                        <div class="blog-single-socile">
+                            <div class="blog-single-socile-left">
+                                <a href="#" class="fab fa-facebook-f"></a>
+                                <a href="#" class="fab fa-twitter"></a>
+                                <a href="#" class="fab fa-google-plus-g"></a>
+                            </div>
+                            <div class="blog-single-socile-right">
+                                <div class="blog-single-pagination">
+                                    <ul>
+                                        <li><a href="#"><i class="fas fa-arrow-left"></i>  Previous</a></li>
+                                        <li><a href="#">Next <i class="fas fa-arrow-right"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comments-contnet">
+
+                            <h5>Commentaires ({{ commentaires|length }})</h5>
+
+                            {% for commentaire in commentaires %}
+                                <div class="comment-author media">
+                                    <img src="assets/img/blog/1.jpg" alt="">
+                                    <div class="comment-author-text">
+                                        <h6>{{ commentaire.nom }}</h6>
+                                        <p>{{ commentaire.commentaire }}</p>
+                                        <h10>{{ commentaire.createdAt|date }}</h10>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <li><a href="#">{{ knp_pagination_render(commentaires) }}</a></li>
+                        </div>
+
+                        <div class="leave-comment-form">
+                            <h3>Leave a comment</h3>
+                            {{ form_start(commentForm) }}
+                            {{ form_widget(commentForm) }}
+                            <button class="btn btn-7">{{ button_label|default('Submit') }}</button>
+                            {{ form_end(commentForm) }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 pl-5">
+                    <div class="blog-widget-right">
+                        <form class="form-inline blog-widget-search">
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                        <div class="popular-news">
+                            <h5>popular news</h5>
+                            <div class="popular-news-item">
+                                <img src="assets/img/blog/6.jpg" alt="">
+                                <h6><a href="#">There is no one type or way ..</a></h6>
+                                <p><i class="far fa-calendar-alt"></i> Jun 22, 2019 </p>
+                            </div>
+                            <div class="popular-news-item">
+                                <img src="assets/img/blog/7.jpg" alt="">
+                                <h6><a href="#">There is no one type or way ..</a></h6>
+                                <p><i class="far fa-calendar-alt"></i> Jun 22, 2019 </p>
+                            </div>
+                            <div class="popular-news-item">
+                                <img src="assets/img/blog/8.jpg" alt="">
+                                <h6><a href="#">There is no one type or way ..</a></h6>
+                                <p><i class="far fa-calendar-alt"></i> Jun 22, 2019 </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <a href="{{ path('app_publication_index') }}">back to list</a>
+    <a href=" {{ path('app_commentaire_new') }}"> leave coment</a>
+    <a href="{{ path('app_publication_edit', {'id': publication.id}) }}">edit</a>
+    {{ include('publication/_delete_form.html.twig') }}
+
+{% endblock %}

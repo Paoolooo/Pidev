@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Publication index{% endblock %}
+
+{% block bodyPublication %}
+    <section id="page-hero" class="about-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="page-title text-center">
+                        <h1>fitner <span>news</span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blog-arae" class="pt-150 pb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    {% for publication in articles %}
+                        <!-- Blog item -->
+                        {% if (publication.id%2 == 1) %}
+                            <div class="blog-item row">
+                                <div class="col-lg-6 p-0">
+                                    <div class="blog-img">
+                                        <a href="{{ path('app_publication_show', {'id': publication.id}) }}"><img src="../../assets/img/blog/1.jpg" alt=""></a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 p-0">
+                                    <div class="blog-text pl-4 pr-4">
+                                        <ul>
+                                            <li><a href="#" class="btn btn-link js-like">
+                                                {% if app.user and publication.isLikedByUser(app.user) %}
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                {% else %}
+                                                    <i class="far fa-thumbs-up"></i>
+                                                {% endif %}
+                                                <span class="js-likes">{{ publication.likes|length }}</span>
+                                                <span class="js-label">j'aime</span>
+                                            </a></li>
+                                            <li><a href="#"><i class="fas fa-comments"></i> {{ publication.commentaires|length }} commentaires</a></li>
+                                        </ul>
+                                        <h3 class="blog-title"><a href="{{ path('app_publication_show', {'id': publication.id}) }}">{{ publication.title }}</a></h3>
+                                        <p> {{ publication.description }}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="blog-item row">
+                                <div class="col-lg-6 col-md-6 p-0">
+                                    <div class="blog-text pl-4 pr-4">
+                                        <ul>
+                                            <li> <a href="#" class="btn btn-link js-like">
+                                                {% if app.user and publication.isLikedByUser(app.user) %}
+                                                    <i class="fas fa-thumbs-up"></i>
+                                                {% else %}
+                                                    <i class="far fa-thumbs-up"></i>
+                                                {% endif %}
+                                                <span class="js-likes">{{ publication.likes|length }}</span>
+                                                <span class="js-label">j'aime</span>
+                                                </a></li>
+                                            <li><a href="#"><i class="fas fa-comments"></i> {{ publication.commentaires|length }} commentaires </a></li>
+                                        </ul>
+                                        <h3 class="blog-title"><a href="{{ path('app_publication_show', {'id': publication.id}) }}">{{ publication.title }}</a></h3>
+                                        <p> {{ publication.description }}</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 p-0">
+                                    <div class="blog-img">
+                                        <a href="{{ path('app_publication_show', {'id': publication.id}) }}"><img src="../../assets/img/blog/4.jpg" alt=""></a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="row text-left pt-100">
+                        <div class="col-lg-12 ">
+                            <nav>
+                                <ul class="pagination blog-pagination">
+                                    <li><a href="#">{{ knp_pagination_render(articles) }}</a></li>
+                    </ul>
+                    </nav>
+                </div>
+            </div>
+                </div>
+
+                <div class="col-lg-4 pl-5">
+                    <div class="blog-widget-right">
+                        <form class="form-inline blog-widget-search">
+                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+                        </form>
+                        <div class="popular-news">
+                            <h5>popular news</h5>
+
+                            {% for pubfav in articles %}
+
+                                <div class="popular-news-item">
+                                    <img src="../../assets/img/blog/6.jpg" alt="">
+                                    <h6><a href="#">{{ pubfav.title }}</a></h6>
+                                    <p><i class="far fa-calendar-alt"></i> Jun 22, 2019 </p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <a href="{{ path('app_publication_new') }}">Create new publication</a>
+
+{% endblock %}
